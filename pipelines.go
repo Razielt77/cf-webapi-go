@@ -21,11 +21,11 @@ func (c *Client) PipelinesList(options ...Option) ([]Pipeline, error) {
 
 	url:= CF_URL+"pipelines/"
 
-	fmt.Printf("url is%s\noption length is %v\n", url, len(options))
+	fmt.Printf("url is: %s\noption length is %v\n", url, len(options))
 
-	url = BuildURL(url)
+	url = BuildURL(url, options)
 
-	fmt.Printf("url is%s\n", url)
+	fmt.Printf("url is: %s\n", url)
 
 	/*body, err := c.DoGet(url)
 

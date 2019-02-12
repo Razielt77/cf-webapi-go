@@ -35,7 +35,7 @@ func (c *Client) DoGet (url string)([]byte, error){
 
 }
 
-func BuildURL(url string, options ...Option) string{
+func BuildURL(url string, options []Option) string{
 
 	if len(options) > 0 {
 		fmt.Printf("len is: %v\n",len(options))
