@@ -23,7 +23,11 @@ type PipelinePayload struct{
 }
 
 type PipelineRaw struct{
+	Metadata 	PipelineMetaData `json:"metadata"`
+}
 
+type PipelineMetaData struct{
+	Name 	string `json:"name"`
 }
 
 func (c *Client) PipelinesList(options ...Option) ([]Pipeline, error) {
@@ -53,7 +57,10 @@ func (c *Client) PipelinesList(options ...Option) ([]Pipeline, error) {
 		return nil, err
 	}
 
-	fmt.Printf("Arr size is: %v\n Count is: %v\n",len(pipelines.Pipelines), pipelines.Count)
+	fmt.Printf("Arr size is: %v\nCount is: %v\n",len(pipelines.Pipelines), pipelines.Count)
+	for _, pipeline := range pipelines.Pipelines {
+		fmt.Printf("Pipeline Name is: %s\n",pipeline.Metadata.Name)
+	}
 
 	//fmt.Printf("Body:\n %s\n",body)
 	return arr, nil
