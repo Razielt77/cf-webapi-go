@@ -8,10 +8,22 @@ type Pipeline struct {
 	Name	string `json:"name"`
 }
 
-func (c *Client) PipelinesList() ([]Pipeline, error) {
+type Option func(s string) string {
+	retrun string
+}
+
+func OptionID (s string) Option{
+	return func(url string) string{
+		return url+"id:"+ s
+	}
+}
+
+func (c *Client) PipelinesList(options ...Option) ([]Pipeline, error) {
 	var arr []Pipeline
 
 	url:= CF_URL+"pipelines/"
+
+	url = BuildURL(url)
 
 	body, err := c.DoGet(url)
 
@@ -23,3 +35,4 @@ func (c *Client) PipelinesList() ([]Pipeline, error) {
 	fmt.Printf("Body:\n %s",body)
 	return arr, nil
 }
+

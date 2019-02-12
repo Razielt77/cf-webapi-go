@@ -34,3 +34,14 @@ func (c *Client) DoGet (url string)([]byte, error){
 	return body,err
 
 }
+
+func BuildURL(url string, options ...Option) string{
+	if len(options) > 0 {
+		url = url + "?"
+	}
+	for _, option := range options {
+		url = option(url)
+		url = url + "&"
+	}
+	return
+}
