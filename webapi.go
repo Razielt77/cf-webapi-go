@@ -1,4 +1,4 @@
-package cf_webapi_go
+package webapi_go
 
 type Client struct{
 	token string
