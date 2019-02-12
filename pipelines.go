@@ -27,14 +27,14 @@ func (c *Client) PipelinesList(options ...Option) ([]Pipeline, error) {
 
 	fmt.Printf("url is\n", url)
 
-	body, err := c.DoGet(url)
+	/*body, err := c.DoGet(url)
 
 	if err != nil{
 		fmt.Println(err)
 		return nil, err
 	}
 
-	//fmt.Printf("Body:\n %s\n",body)
+	fmt.Printf("Body:\n %s\n",body)*/
 	return arr, nil
 }
 
