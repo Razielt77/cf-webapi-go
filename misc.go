@@ -43,5 +43,5 @@ func BuildURL(url string, options ...Option) string{
 		url = option(url)
 		url = url + "&"
 	}
-	return
+	return url
 }
