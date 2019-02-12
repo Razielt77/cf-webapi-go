@@ -23,6 +23,8 @@ func (c *Client) PipelinesList(options ...Option) ([]Pipeline, error) {
 
 	url = BuildURL(url)
 
+	fmt.Printf("url is\n", url)
+
 	body, err := c.DoGet(url)
 
 	if err != nil{
@@ -30,7 +32,7 @@ func (c *Client) PipelinesList(options ...Option) ([]Pipeline, error) {
 		return nil, err
 	}
 
-	fmt.Printf("Body:\n %s",body)
+	fmt.Printf("Body:\n %s\n",body)
 	return arr, nil
 }
 
