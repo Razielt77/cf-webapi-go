@@ -12,7 +12,7 @@ type Option func (s string) string
 
 func OptionID (s string) Option{
 	return func(url string) string{
-		return url+"id:"+ s
+		return url+"id="+ s
 	}
 }
 
