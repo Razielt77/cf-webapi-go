@@ -17,6 +17,12 @@ func OptionID (s string) Option{
 	}
 }
 
+func OptionTag (s string) Option {
+	return func(url string) string{
+		return url+"labels[tags]="+ s
+	}
+}
+
 type PipelinePayload struct{
 	Pipelines	[]PipelineRaw	`json:"docs"`
 	Count		int				`json:"count"`
@@ -28,6 +34,7 @@ type PipelineRaw struct{
 
 type PipelineMetaData struct{
 	Name 	string `json:"name"`
+	IsPublic bool `json:"isPublic"`
 }
 
 func (c *Client) PipelinesList(options ...Option) ([]Pipeline, error) {
@@ -59,7 +66,7 @@ func (c *Client) PipelinesList(options ...Option) ([]Pipeline, error) {
 
 	fmt.Printf("Arr size is: %v\nCount is: %v\n",len(pipelines.Pipelines), pipelines.Count)
 	for _, pipeline := range pipelines.Pipelines {
-		fmt.Printf("Pipeline Name is: %s\n",pipeline.Metadata.Name)
+		fmt.Printf("Pipeline Name is: %s IsPublic value %v\n",pipeline.Metadata.Name,pipeline.Metadata.IsPublic)
 	}
 
 	//fmt.Printf("Body:\n %s\n",body)
