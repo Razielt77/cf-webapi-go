@@ -1,6 +1,7 @@
 package webapi
 
 import (
+	"encoding/json"
 	"fmt"
 )
 
@@ -14,6 +15,15 @@ func OptionID (s string) Option{
 	return func(url string) string{
 		return url+"id="+ s
 	}
+}
+
+type PipelinePayload struct{
+	Pipelines	[]PipelineRaw	`json:"docs"`
+	Count		int				`json:"count"`
+}
+
+type PipelineRaw struct{
+
 }
 
 func (c *Client) PipelinesList(options ...Option) ([]Pipeline, error) {
@@ -34,7 +44,18 @@ func (c *Client) PipelinesList(options ...Option) ([]Pipeline, error) {
 		return nil, err
 	}
 
-	fmt.Printf("Body:\n %s\n",body)
+	pipelines := PipelinePayload{}
+
+	err = json.Unmarshal(body, pipelines)
+
+	if err !=nil {
+		fmt.Println(err)
+		return nil, err
+	}
+
+	fmt.Printf("Arr size is: %v\n Count is: %v\n",len(pipelines.Pipelines), pipelines.Count)
+
+	//fmt.Printf("Body:\n %s\n",body)
 	return arr, nil
 }
 
