@@ -46,7 +46,7 @@ func (c *Client) PipelinesList(options ...Option) ([]Pipeline, error) {
 
 	pipelines := PipelinePayload{}
 
-	err = json.Unmarshal(body, pipelines)
+	err = json.Unmarshal(body, &pipelines)
 
 	if err !=nil {
 		fmt.Println(err)
