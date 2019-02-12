@@ -8,8 +8,8 @@ type Pipeline struct {
 	Name	string `json:"name"`
 }
 
-type Option func(s string) string {
-	retrun string
+type Option func (s string) string {
+	retrun s
 }
 
 func OptionID (s string) Option{
