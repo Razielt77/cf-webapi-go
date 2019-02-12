@@ -21,6 +21,8 @@ func (c *Client) PipelinesList(options ...Option) ([]Pipeline, error) {
 
 	url:= CF_URL+"pipelines/"
 
+	fmt.Printf("url is\noption length is %v\n", url, len(options))
+
 	url = BuildURL(url)
 
 	fmt.Printf("url is\n", url)
@@ -32,7 +34,7 @@ func (c *Client) PipelinesList(options ...Option) ([]Pipeline, error) {
 		return nil, err
 	}
 
-	fmt.Printf("Body:\n %s\n",body)
+	//fmt.Printf("Body:\n %s\n",body)
 	return arr, nil
 }
 
