@@ -36,13 +36,15 @@ func (c *Client) DoGet (url string)([]byte, error){
 
 }
 
+type Option func (s string) string
+
+
 func BuildURL(url string, options []Option) string{
 
 	if len(options) > 0 {
 		url = url + "?"
 		for _, option := range options {
 			url = option(url)
-			fmt.Printf("url is (in loop): %v\n",len(options))
 			url = url + "&"
 		}
 		url = strings.TrimRight(url,"&")
