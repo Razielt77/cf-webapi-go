@@ -31,7 +31,8 @@ type WorkflowsPayload struct {
 
 type Workflow struct {
 	Status string `json:"status"`
-	CreatedTS string `json:"created"`
+	CreatedTS 	string `json:"created"`
+	FinishedTS  string `json:"finished"`
 	Committer 	string `json:"userName"`
 	CommitMsg 	string `json:"commitMessage"`
 	CommitUrl 	string `json:"commitURL"`

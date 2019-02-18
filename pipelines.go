@@ -46,6 +46,8 @@ type Labels struct{
 	Tags 		[]string `json:"tags"`
 }
 
+const NO_LAST_WORKFLOW  = "N\\A"
+
 func (c *Client) PipelinesList(options ...Option) ([]Pipeline, error) {
 
 
@@ -86,7 +88,7 @@ func (c *Client) PipelinesList(options ...Option) ([]Pipeline, error) {
 		if len(wfarr) > 0 {
 			p.LastWorkflow = wfarr[0]
 		}else{
-			p.LastWorkflow = Workflow{Status: "N\\A", CreatedTS: "N\\A", Committer: "N\\A", CommitMsg: "N\\A", CommitUrl: "N\\A", Avatar: "N\\A"}
+			p.LastWorkflow = Workflow{Status: NO_LAST_WORKFLOW, CreatedTS: NO_LAST_WORKFLOW, FinishedTS: NO_LAST_WORKFLOW,Committer: NO_LAST_WORKFLOW, CommitMsg: NO_LAST_WORKFLOW, CommitUrl: NO_LAST_WORKFLOW, Avatar: NO_LAST_WORKFLOW}
 		}
 		arr = append(arr,p)
 		//fmt.Printf("Pipeline Name is: %s IsPublic value %v\n",pipeline.Metadata.Name,pipeline.Metadata.IsPublic)
