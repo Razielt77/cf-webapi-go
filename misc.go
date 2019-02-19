@@ -46,7 +46,10 @@ func (c *Client) DoPost (url string)([]byte, error){
 		return nil, err
 	}
 
+	req.Header.Set("Content-Type", "application/json")
+
 	req.Header.Add("Authorization", string("Bearer " + c.token))
+
 	resp, err := c.httpClient.Do(req)
 
 	if err != nil{
