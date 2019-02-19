@@ -36,6 +36,36 @@ func (c *Client) DoGet (url string)([]byte, error){
 
 }
 
+
+func (c *Client) DoPost (url string)([]byte, error){
+
+	req, err := http.NewRequest("POST", url, byte)
+
+	if err != nil{
+		fmt.Println(err)
+		return nil, err
+	}
+
+	req.Header.Add("Authorization", string("Bearer " + c.token))
+	resp, err := c.httpClient.Do(req)
+
+	if err != nil{
+		fmt.Println(err)
+		return nil, err
+	}
+
+	defer resp.Body.Close()
+	body, err := ioutil.ReadAll(resp.Body)
+
+	if err != nil{
+		fmt.Println(err)
+		return nil, err
+	}
+
+	return body,err
+
+}
+
 type Option func (s string) string
 
 
