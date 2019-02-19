@@ -1,6 +1,8 @@
 package webapi
 
 import (
+	"bytes"
+	"encoding/json"
 	"fmt"
 	"io/ioutil"
 	"net/http"
@@ -37,9 +39,18 @@ func (c *Client) DoGet (url string)([]byte, error){
 }
 
 
-func (c *Client) DoPost (url string)([]byte, error){
+func (c *Client) DoPost (url string, v interface{})([]byte, error){
 
-	req, err := http.NewRequest("POST", url, byte)
+
+
+	jsn, err := json.Marshal(v)
+
+	if err != nil{
+		fmt.Println(err)
+		return nil, err
+	}
+
+	req, err := http.NewRequest("POST", url, bytes.NewBuffer(jsn))
 
 	if err != nil{
 		fmt.Println(err)
