@@ -9,10 +9,15 @@ type UserInfo struct{
 	Name 			string `json:"userName"`
 	DefaultAccount	int `json:"defaultAccount"`
 	Accounts 		[]AccountInfo `json:"account"`
+	UserData 		UserDataInfo `json:"user_data"`
 }
 
 type AccountInfo struct{
 	Name 			string `json:"name"`
+}
+
+type UserDataInfo struct{
+	Image 			string `json:"image"`
 }
 
 
