@@ -7,13 +7,14 @@ import (
 
 type UserInfo struct{
 	Name 			string `json:"userName"`
-	DefaultAccount	int `json:"defaultAccount"`
+	ActiveAccount	int `json:"activeAccountName"`
 	Accounts 		[]AccountInfo `json:"account"`
 	UserData 		UserDataInfo `json:"user_data"`
 }
 
 type AccountInfo struct{
 	Name 			string `json:"name"`
+	Token 			string `json:"token"`
 }
 
 type UserDataInfo struct{
@@ -47,6 +48,8 @@ func (c *Client) UserInfo(options ...Option) (info *UserInfo, err error) {
 		fmt.Println(err)
 		return nil, err
 	}
+
+	info.Accounts[info.ActiveAccount].Token = c.token
 
 	//fmt.Printf("Arr size is: %v\nCount is: %v\n",len(pipelines.Pipelines), pipelines.Count)
 
