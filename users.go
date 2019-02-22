@@ -7,7 +7,7 @@ import (
 
 type UserInfo struct{
 	Name 			string `json:"userName"`
-	ActiveAccount	int `json:"activeAccountName"`
+	ActiveAccount	string `json:"activeAccountName"`
 	Accounts 		[]AccountInfo `json:"account"`
 	UserData 		UserDataInfo `json:"user_data"`
 }
@@ -49,7 +49,11 @@ func (c *Client) UserInfo(options ...Option) (info *UserInfo, err error) {
 		return nil, err
 	}
 
-	info.Accounts[info.ActiveAccount].Token = c.token
+	for _, account := range info.Accounts {
+		if account.Name == info.ActiveAccount {
+			account.Token = c.token
+		}
+	}
 
 	//fmt.Printf("Arr size is: %v\nCount is: %v\n",len(pipelines.Pipelines), pipelines.Count)
 
