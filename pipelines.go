@@ -13,6 +13,7 @@ type Pipeline struct {
 	LastWorkflow Workflow `json:"last_workflow"`
 }
 
+type OptionGen func (string) Option
 
 func OptionID (s string) Option{
 	return func(url string) string{
