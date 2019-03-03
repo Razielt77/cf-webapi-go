@@ -3,10 +3,18 @@ package webapi
 import (
 	"bytes"
 	"encoding/json"
+	"errors"
 	"fmt"
 	"io/ioutil"
 	"net/http"
+	"regexp"
+	"strconv"
 	"strings"
+)
+
+const (
+	UNAUTHORIZED = "Unauthorized Call"
+	UNKNOWN_ERROR = "Unknown Error"
 )
 
 func (c *Client) DoGet (url string)([]byte, error){
@@ -27,11 +35,27 @@ func (c *Client) DoGet (url string)([]byte, error){
 	}
 
 	defer resp.Body.Close()
+
+
 	body, err := ioutil.ReadAll(resp.Body)
 
 	if err != nil{
 		fmt.Println(err)
 		return nil, err
+	}
+
+
+	status := ExtractResponseCode(resp)
+
+	//fmt.Printf("Status is: %v of type: %T\n",status,status)
+
+	if status != http.StatusOK{
+		switch status{
+		case http.StatusUnauthorized:
+			err = errors.New(UNAUTHORIZED)
+		default:
+			err = errors.New(UNKNOWN_ERROR)
+		}
 	}
 
 	return body,err
@@ -69,6 +93,25 @@ func (c *Client) DoPost (url string, v interface{})([]byte, error){
 	}
 
 	defer resp.Body.Close()
+
+
+
+	status := ExtractResponseCode(resp)
+
+
+	if status != http.StatusOK{
+		switch status{
+		case http.StatusUnauthorized:
+			err = errors.New(UNAUTHORIZED)
+		default:
+			err = errors.New(UNKNOWN_ERROR)
+		}
+		fmt.Println(err)
+		body, _ := ioutil.ReadAll(resp.Body)
+		return body, err
+	}
+
+
 	body, err := ioutil.ReadAll(resp.Body)
 
 	if err != nil{
@@ -95,4 +138,13 @@ func BuildURL(url string, options []Option) string{
 	}
 
 	return url
+}
+
+func ExtractResponseCode(r *http.Response) int {
+
+	re, _ := regexp.Compile(`\d\d\d`)
+	match := re.FindString(r.Status)
+	status, _ := strconv.Atoi(match)
+	return status
+
 }
