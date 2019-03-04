@@ -37,7 +37,6 @@ func (c *Client) UserInfo(options ...Option) (info *UserInfo, err error) {
 	body, err := c.DoGet(url)
 
 	if err != nil{
-		fmt.Println(err)
 		return nil, err
 	}
 
