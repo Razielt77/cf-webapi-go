@@ -14,6 +14,7 @@ import (
 
 const (
 	UNAUTHORIZED = "Unauthorized Call"
+	NOT_FOUND = "Page Not Found"
 	UNKNOWN_ERROR = "Unknown Error"
 )
 
@@ -28,13 +29,12 @@ func (c *Client) DoGet (url string)([]byte, error){
 
 	req.Header.Add("Authorization", string("Bearer " + c.token))
 	resp, err := c.httpClient.Do(req)
+	defer resp.Body.Close()
 
 	if err != nil{
 		fmt.Println(err)
 		return nil, err
 	}
-
-	defer resp.Body.Close()
 
 
 	body, err := ioutil.ReadAll(resp.Body)
@@ -50,12 +50,7 @@ func (c *Client) DoGet (url string)([]byte, error){
 	//fmt.Printf("Status is: %v of type: %T\n",status,status)
 
 	if status != http.StatusOK{
-		switch status{
-		case http.StatusUnauthorized:
-			err = errors.New(UNAUTHORIZED)
-		default:
-			err = errors.New(UNKNOWN_ERROR)
-		}
+		err = ComposeErrorFromHTTPStatus(status)
 	}
 
 	return body,err
@@ -100,12 +95,7 @@ func (c *Client) DoPost (url string, v interface{})([]byte, error){
 
 
 	if status != http.StatusOK{
-		switch status{
-		case http.StatusUnauthorized:
-			err = errors.New(UNAUTHORIZED)
-		default:
-			err = errors.New(UNKNOWN_ERROR)
-		}
+		err = ComposeErrorFromHTTPStatus(status)
 		fmt.Println(err)
 		body, _ := ioutil.ReadAll(resp.Body)
 		return body, err
@@ -147,4 +137,19 @@ func ExtractResponseCode(r *http.Response) int {
 	status, _ := strconv.Atoi(match)
 	return status
 
+}
+
+func ComposeErrorFromHTTPStatus(status int) error{
+
+	var err error
+	switch status{
+	case http.StatusUnauthorized:
+		err = errors.New(UNAUTHORIZED)
+	case http.StatusNotFound:
+		err = errors.New(NOT_FOUND)
+	default:
+		fmt.Println(status)
+		err = errors.New(UNKNOWN_ERROR)
+	}
+	return err
 }
