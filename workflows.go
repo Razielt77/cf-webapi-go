@@ -36,6 +36,8 @@ type Workflow struct {
 	CreatedTS 	string `json:"created"`
 	FinishedTS  string `json:"finished"`
 	Committer 	string `json:"userName"`
+	Branch	 	string `json:"branch"`
+	SHA		 	string `json:"sha"`
 	CommitMsg 	string `json:"commitMessage"`
 	CommitUrl 	string `json:"commitURL"`
 	Avatar 		string `json:"avatar"`
