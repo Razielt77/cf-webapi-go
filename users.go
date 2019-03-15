@@ -15,6 +15,7 @@ type UserInfo struct{
 type AccountInfo struct{
 	Name 			string `json:"name"`
 	Token 			string `json:"token"`
+	UserName		string `json:"user_name"`
 }
 
 type UserDataInfo struct{
@@ -48,9 +49,10 @@ func (c *Client) UserInfo(options ...Option) (info *UserInfo, err error) {
 		return nil, err
 	}
 
-	for _, account := range info.Accounts {
-		if account.Name == info.ActiveAccount {
-			account.Token = c.token
+	for  i , _ := range info.Accounts {
+		if info.Accounts[i].Name == info.ActiveAccount {
+			info.Accounts[i].Token = c.token
+			info.Accounts[i].UserName = info.Name
 		}
 	}
 
